@@ -6,7 +6,7 @@ pipeline {
     stages{
         stage('Build Maven'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Java-Techie-jt/devops-automation']]])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/arhemanthdevops/Newspring']])
                 sh 'mvn clean install'
             }
         }
@@ -20,8 +20,8 @@ pipeline {
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u manthesh -p ${dockerhubpwd}'
+                   withCredentials([string(credentialsId: 'new', variable: 'dockerhub')]) { {
+                   sh 'docker login -u manthesh -p ${new}'
 
 }
                    sh 'docker push manthesh/devops-integration:latest'
